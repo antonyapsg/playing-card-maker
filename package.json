@@ -1,0 +1,21 @@
+{
+  "name": "playing-card-maker",
+  "version": "1.0.0",
+  "description": "A web application for creating and managing playing cards.",
+  "main": "src/js/app.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build script not defined'"
+  },
+  "keywords": [
+    "playing cards",
+    "card maker",
+    "web application"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "bootstrap": "^5.1.0"
+  }
+}

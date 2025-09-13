@@ -1,0 +1,109 @@
+body {
+    background-color: #222;
+    color: #eee;
+}
+
+#cardsGrid {
+    min-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.card-cell {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2.5/3.5;
+    background: #333;
+    border-radius: 12px;
+    border: 2px solid #444;
+    box-shadow: 0 2px 8px #000a;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    font-size: 2dvw; /* Responsive to grid/cell width */
+    overflow: hidden;
+}
+
+/* Top-left corner */
+.card-corner {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* <-- center horizontally */
+    justify-content: center;/* <-- center vertically */
+    z-index: 2;
+    width: 15%;             /* ensures enough space for centering */
+}
+
+.card-corner .corner-number {
+    font-size: 1.2em; /* Scales with .card-cell font-size */
+    font-weight: bold;
+    line-height: 1;
+    width: 100%;
+    text-align: center;
+}
+
+.card-corner .corner-symbol {
+    font-size: 2em; /* Scales with .card-cell font-size */
+    line-height: 0.8;
+    width: 100%;
+    text-align: center;
+}
+
+/* Bottom-right corner, rotated */
+.card-corner.bottom {
+    left: auto;
+    right: 10px;
+    top: auto;
+    bottom: 10px;
+    transform: rotate(180deg);
+    align-items: center;    /* <-- center horizontally */
+    justify-content: center;
+}
+
+/* Hide old symbol/number styles */
+.card-symbol,
+.card-number {
+    display: none;
+}
+
+.card-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.card-corner .corner-number,
+.card-corner .corner-symbol {
+    /* Outline effect */
+    text-shadow:
+        -1px -1px 0 #fff,
+         1px -1px 0 #fff,
+        -1px  1px 0 #fff,
+         1px  1px 0 #fff,
+         0px  1px 0 #fff,
+         1px  0px 0 #fff,
+         0px -1px 0 #fff,
+        -1px  0px 0 #fff;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+/* Red color for hearts and diamonds */
+.card-corner .corner-number.red,
+.card-corner .corner-symbol.red {
+    color: #e53935;
+}
+
+/* Black for spades and clubs */
+.card-corner .corner-number.black,
+.card-corner .corner-symbol.black {
+    color: #222;
+}
