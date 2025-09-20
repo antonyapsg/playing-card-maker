@@ -266,10 +266,16 @@ function generateId() {
 function exportAllCardsAsOneImage() {
     const cardW = 744, cardH = 1040; // 63mm x 88mm at 300 DPI
     const cols = 4, rows = 13;
+    const gap = 10; // gap between cards
     const canvas = document.createElement('canvas');
-    canvas.width = cols * cardW;
-    canvas.height = rows * cardH;
+    canvas.width = cols * cardW + (cols + 2) * gap;
+    canvas.height = rows * cardH + (rows + 2) * gap;
     const ctx = canvas.getContext('2d');
+
+    ctx.save();
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
 
     let loadedCount = 0;
     const totalCards = cards.length;
@@ -339,11 +345,22 @@ function exportAllCardsAsOneImage() {
         const n = Math.floor(idx / cols);
         const s = idx % cols;
         const card = cards[idx];
-        const x = s * cardW;
-        const y = n * cardH;
+        const x = (s * cardW) + (s * gap) + gap;
+        const y = (n * cardH) + (n * gap) + gap;
 
         // Draw rounded card background
-        drawRoundedRect(ctx, x, y, cardW, cardH, 20, '#fff', '#444');
+        drawRoundedRect(ctx, x, y, cardW, cardH, 20, '#fff', '#000');
+
+        function drawCardCorners() {
+            drawCorner(ctx, card.number, card.suit, x, y, false);
+            drawCorner(ctx, card.number, card.suit, x + cardW, y + cardH, true);
+
+            loadedCount++;
+            updateExportProgress(loadedCount, totalCards);
+            if (loadedCount === totalCards) {
+                saveBigImage(canvas);
+            }
+        }
 
         // Card image 
         if (card.bg) {
@@ -372,26 +389,13 @@ function exportAllCardsAsOneImage() {
                 ctx.restore();
 
                 // Draw corners after image
-                drawCorner(ctx, card.number, card.suit, x, y, false);
-                drawCorner(ctx, card.number, card.suit, x + cardW, y + cardH, true);
-
-                loadedCount++;
-                updateExportProgress(loadedCount, totalCards);
-                if (loadedCount === totalCards) {
-                    saveBigImage(canvas);
-                }
+                drawCardCorners();
             };
             img.src = card.bg;
+
         } else {
             // Draw corners
-            drawCorner(ctx, card.number, card.suit, x, y, false);
-            drawCorner(ctx, card.number, card.suit, x + cardW, y + cardH, true);
-
-            loadedCount++;
-            updateExportProgress(loadedCount, totalCards);
-            if (loadedCount === totalCards) {
-                saveBigImage(canvas);
-            }
+            drawCardCorners();
         }
     }
 
