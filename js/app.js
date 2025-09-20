@@ -175,13 +175,16 @@ function getDeckFromDB(id) {
 
 // Override saveCards to also save to IndexedDB
 function saveCards() {
-    const deck = {
-        id: cardsId,
-        name: cardsName,
-        cards: cards
-    };
-    localStorage.setItem('playingCardMaker_' + cardsId, JSON.stringify(deck));
-    saveDeckToDB(deck);
+    try {
+        const deck = {
+            id: cardsId,
+            name: cardsName,
+            cards: cards
+        };
+        saveDeckToDB(deck);
+    } catch (e) {
+        alert('Failed to save deck: ' + e.message);
+    }
 }
 
 // Load dialog
