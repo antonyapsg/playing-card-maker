@@ -412,7 +412,7 @@ function saveBigImage(canvas) {
     $('#exportProgressModal').modal('hide');
     const link = document.createElement('a');
     link.download = 'playing_cards_grid.png';
-    link.href = canvas.toDataURL();
+    link.href = canvas.toDataURL('image/jpg', 0.9);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link); 
